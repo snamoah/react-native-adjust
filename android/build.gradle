@@ -35,12 +35,7 @@ android {
     }
 }
 
-repositories {
-    mavenCentral()
-    google()
-}
-
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.adjust.sdk:adjust-android:4.17.0'
     implementation 'com.facebook.react:react-native:+'
 }
