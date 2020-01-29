@@ -22,7 +22,7 @@ public class AdjustPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
-        modules.add(new Adjust(reactContext));
+        modules.add(new AdjustModule(reactContext));
         return modules;
     }
 

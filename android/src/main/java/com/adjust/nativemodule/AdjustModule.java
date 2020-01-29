@@ -20,7 +20,7 @@ import com.facebook.react.bridge.*;
 import com.facebook.react.modules.core.*;
 import com.adjust.sdk.*;
 
-public class Adjust extends ReactContextBaseJavaModule implements LifecycleEventListener,
+public class AdjustModule extends ReactContextBaseJavaModule implements LifecycleEventListener,
                 OnAttributionChangedListener,
                 OnEventTrackingSucceededListener,
                 OnEventTrackingFailedListener,
@@ -36,7 +36,7 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
     private boolean deferredDeeplinkCallback;
     private boolean shouldLaunchDeeplink = true;
 
-    public Adjust(ReactApplicationContext reactContext) {
+    public AdjustModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
 
@@ -52,12 +52,12 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
 
     @Override
     public void onHostPause() {
-        com.adjust.sdk.Adjust.onPause();
+        Adjust.onPause();
     }
 
     @Override
     public void onHostResume() {
-        com.adjust.sdk.Adjust.onResume();
+        Adjust.onResume();
     }
 
     @Override
@@ -272,8 +272,8 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
             adjustConfig.setOnDeeplinkResponseListener(this);
         }
 
-        com.adjust.sdk.Adjust.onCreate(adjustConfig);
-        com.adjust.sdk.Adjust.onResume();
+        Adjust.onCreate(adjustConfig);
+        Adjust.onResume();
     }
 
     @ReactMethod
@@ -345,88 +345,78 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
             }
         }
 
-        com.adjust.sdk.Adjust.trackEvent(event);
+        Adjust.trackEvent(event);
     }
 
     @ReactMethod
     public void setEnabled(Boolean enabled) {
-        com.adjust.sdk.Adjust.setEnabled(enabled);
+        Adjust.setEnabled(enabled);
     }
 
     @ReactMethod
     public void isEnabled(Callback callback) {
-        callback.invoke(com.adjust.sdk.Adjust.isEnabled());
+        callback.invoke(Adjust.isEnabled());
     }
 
     @ReactMethod
     public void setReferrer(String referrer) {
-        com.adjust.sdk.Adjust.setReferrer(referrer, getReactApplicationContext());
+        Adjust.setReferrer(referrer, getReactApplicationContext());
     }
 
     @ReactMethod
     public void setOfflineMode(Boolean enabled) {
-        com.adjust.sdk.Adjust.setOfflineMode(enabled);
+        Adjust.setOfflineMode(enabled);
     }
 
     @ReactMethod
     public void setPushToken(String token) {
-        com.adjust.sdk.Adjust.setPushToken(token, getReactApplicationContext());
+        Adjust.setPushToken(token, getReactApplicationContext());
     }
 
     @ReactMethod
     public void appWillOpenUrl(String strUri) {
         final Uri uri = Uri.parse(strUri);
-        com.adjust.sdk.Adjust.appWillOpenUrl(uri, getReactApplicationContext());
+        Adjust.appWillOpenUrl(uri, getReactApplicationContext());
     }
 
     @ReactMethod
     public void sendFirstPackages() {
-        com.adjust.sdk.Adjust.sendFirstPackages();
-    }
-
-    @ReactMethod
-    public void trackAdRevenue(String source, String payload) {
-        try {
-            JSONObject jsonPayload = new JSONObject(payload);
-            com.adjust.sdk.Adjust.trackAdRevenue(source, jsonPayload);
-        } catch (JSONException err) {
-             Log.d(TAG, "Give ad revenue payload is not a valid JSON string");
-        }
+        Adjust.sendFirstPackages();
     }
 
     @ReactMethod
     public void addSessionCallbackParameter(String key, String value) {
-        com.adjust.sdk.Adjust.addSessionCallbackParameter(key, value);
+        Adjust.addSessionCallbackParameter(key, value);
     }
 
     @ReactMethod
     public void addSessionPartnerParameter(String key, String value) {
-        com.adjust.sdk.Adjust.addSessionPartnerParameter(key, value);
+        Adjust.addSessionPartnerParameter(key, value);
     }
 
     @ReactMethod
     public void removeSessionCallbackParameter(String key) {
-        com.adjust.sdk.Adjust.removeSessionCallbackParameter(key);
+        Adjust.removeSessionCallbackParameter(key);
     }
 
     @ReactMethod
     public void removeSessionPartnerParameter(String key) {
-        com.adjust.sdk.Adjust.removeSessionPartnerParameter(key);
+        Adjust.removeSessionPartnerParameter(key);
     }
 
     @ReactMethod
     public void resetSessionCallbackParameters() {
-        com.adjust.sdk.Adjust.resetSessionCallbackParameters();
+        Adjust.resetSessionCallbackParameters();
     }
 
     @ReactMethod
     public void resetSessionPartnerParameters() {
-        com.adjust.sdk.Adjust.resetSessionPartnerParameters();
+        Adjust.resetSessionPartnerParameters();
     }
 
     @ReactMethod
     public void gdprForgetMe() {
-        com.adjust.sdk.Adjust.gdprForgetMe(getReactApplicationContext());
+        Adjust.gdprForgetMe(getReactApplicationContext());
     }
 
     @ReactMethod
@@ -436,7 +426,7 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
 
     @ReactMethod
     public void getGoogleAdId(final Callback callback) {
-        com.adjust.sdk.Adjust.getGoogleAdId(getReactApplicationContext(), new com.adjust.sdk.OnDeviceIdsRead() {
+        Adjust.getGoogleAdId(getReactApplicationContext(), new com.adjust.sdk.OnDeviceIdsRead() {
             @Override
             public void onGoogleAdIdRead(String googleAdId) {
                 callback.invoke(googleAdId);
@@ -446,22 +436,22 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
 
     @ReactMethod
     public void getAdid(Callback callback) {
-        callback.invoke(com.adjust.sdk.Adjust.getAdid());
+        callback.invoke(Adjust.getAdid());
     }
 
     @ReactMethod
     public void getAmazonAdId(Callback callback) {
-        callback.invoke(com.adjust.sdk.Adjust.getAmazonAdId(getReactApplicationContext()));
+        callback.invoke(Adjust.getAmazonAdId(getReactApplicationContext()));
     }
 
     @ReactMethod
     public void getAttribution(Callback callback) {
-        callback.invoke(AdjustUtil.attributionToMap(com.adjust.sdk.Adjust.getAttribution()));
+        callback.invoke(AdjustUtil.attributionToMap(Adjust.getAttribution()));
     }
 
     @ReactMethod
     public void getSdkVersion(String sdkPrefix, Callback callback) {
-        String sdkVersion = com.adjust.sdk.Adjust.getSdkVersion();
+        String sdkVersion = Adjust.getSdkVersion();
         if (sdkVersion == null) {
             callback.invoke("");
         } else {
@@ -592,17 +582,17 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
             testOptions.teardown = value;
         }
 
-        com.adjust.sdk.Adjust.setTestOptions(testOptions);
+        Adjust.setTestOptions(testOptions);
     }
 
     @ReactMethod
     public void onResume() {
-        com.adjust.sdk.Adjust.onResume();
+        Adjust.onResume();
     }
 
     @ReactMethod
     public void onPause() {
-        com.adjust.sdk.Adjust.onPause();
+        Adjust.onPause();
     }
 
     private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params) {
